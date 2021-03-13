@@ -141,7 +141,7 @@
         
         //Ler Arquivo Lanches
         FILE *lanchesTXT;
-        lanchesTXT = fopen("lanches.txt", "r");
+        lanchesTXT = fopen("InputFiles/lanches.txt", "r");
         if (lanchesTXT){
             do{
                 fscanf(lanchesTXT, "%d %s %f",&id, nome, &preco);
@@ -152,7 +152,7 @@
 
         //Ler Arquivo Bebidas
         FILE* bebidasTXT;
-        bebidasTXT = fopen("bebidas.txt", "r");  
+        bebidasTXT = fopen("InputFiles/bebidas.txt", "r");  
         if (bebidasTXT){
             do{
                 fscanf(bebidasTXT, "%d %s %f",&id, nome, &preco);
@@ -163,7 +163,7 @@
 
         //Ler Arquivo Sobremesas
         FILE* sobremesasTXT;
-        sobremesasTXT = fopen("sobremesas.txt", "r");
+        sobremesasTXT = fopen("InputFiles/sobremesas.txt", "r");
         if (sobremesasTXT){
             do{
                 fscanf(sobremesasTXT, "%d %s %f",&id, nome, &preco);
