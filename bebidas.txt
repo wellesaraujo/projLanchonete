@@ -1,0 +1,5 @@
+1 Suco_Natural 8
+2 Refrigerante 5
+3 Agua 2
+4 Cafe 4
+5 Cerveja 6

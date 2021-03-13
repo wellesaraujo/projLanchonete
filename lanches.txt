@@ -1,0 +1,7 @@
+1 Coxinha 3
+2 Cachorro-Quente 5
+3 Hamburguer 7
+4 Pastel 10
+5 Croisant 11
+6 Kibe 4
+7 Pao_De_Queijo 2
