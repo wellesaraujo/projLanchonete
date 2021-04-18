@@ -1,0 +1,10 @@
+	## RESUMO DO PEDIDO ##
+
+	Qnt - Item            - Vl Unit -> Vl Total
+	4   - Cachorro-Quente - R$5.00  -> R$20.00 
+	4   - Hamburguer      - R$7.00  -> R$28.00 
+	2   - Coxinha         - R$3.00  -> R$6.00  
+	2   - Agua            - R$2.00  -> R$4.00  
+	2   - Suco_Natural    - R$8.00  -> R$16.00 
+
+	## TOTAL = R$74.00 ##
