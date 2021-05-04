@@ -26,6 +26,7 @@
     }
 
     Lista* Carrinho;
+    int idPedido=1;
 
     void inserirItem (Lista * L, char nomeItem[], float precoItem, int idItem){
         produto* novo = (produto*) malloc (sizeof(produto));
@@ -134,8 +135,12 @@
     void imprimirRecibo (){
         produto* aux = Carrinho->inicio;
         float total =0;
+        char nomePedido[10];
+
+        snprintf(nomePedido, sizeof(nomePedido), "Pedido_%d", idPedido);
+        //strcat(nomePedido,".txt");
         FILE *nf;
-        nf = fopen("nf.txt","w");
+        nf = fopen(nomePedido,"w");
 
         fprintf(nf,"\t## RESUMO DO PEDIDO ##\n\n");
 
@@ -150,6 +155,7 @@
             fprintf(nf, "\n\t## Observação: %s ##\n", Carrinho->obs);
         free(aux);
         fclose(nf);
+        idPedido++;
         return;
     }
 
@@ -229,10 +235,31 @@
                 sleep(1);
                 imprimirRecibo();
                 system("clear");
-                free(Carrinho);
-                printf("\tObrigadx, volte sempre!\n");
-                exit(0);
-                break;
+                //free(Carrinho);
+                strcpy(Carrinho->obs, "");
+                Carrinho -> inicio = NULL;
+                printf("\tPedido registrado com sucesso!!\n\tGostaria de fazer um novo Pedido?(S/N)\n\t");
+                char continuar;
+                scanf(" %c",&continuar);
+                do{
+
+                if (continuar =='N'){
+                    free(Carrinho);
+                    printf("\tObrigadx, volte sempre!\n");
+                
+                    exit(0);
+                    break;
+                }
+                else if (continuar=='S'){
+
+                    return;
+                }
+                else{
+                    printf("\tOpção inválida!!!!!!!!\n\tTente novamente\n\t");
+                }
+                } while (1);
+                
+                
             } else if(op==2){
                 system("clear");
                 printf("\tDigite sua observação:\n\t");
