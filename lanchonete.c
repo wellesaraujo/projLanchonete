@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <unistd.h>
+#include <unistd.h> 
 
  typedef struct produto {
         char nome[20];
@@ -13,17 +13,20 @@
 
     typedef struct {
         char categoria[20];
+        char obs[100];
         produto* inicio;
     } Lista;
 
     Lista* criaLista(char categoria[]){
         Lista* nova = (Lista*) malloc (sizeof(Lista));
         strcpy(nova->categoria, categoria);
+        strcpy(nova->obs, "");
         nova -> inicio = NULL;
         return nova;
     }
 
     Lista* Carrinho;
+    int idPedido=1;
 
     void inserirItem (Lista * L, char nomeItem[], float precoItem, int idItem){
         produto* novo = (produto*) malloc (sizeof(produto));
@@ -132,8 +135,12 @@
     void imprimirRecibo (){
         produto* aux = Carrinho->inicio;
         float total =0;
+        char nomePedido[10];
+
+        snprintf(nomePedido, sizeof(nomePedido), "Pedido_%d", idPedido);
+        //strcat(nomePedido,".txt");
         FILE *nf;
-        nf = fopen("nf.txt","w");
+        nf = fopen(nomePedido,"w");
 
         fprintf(nf,"\t## RESUMO DO PEDIDO ##\n\n");
 
@@ -144,8 +151,11 @@
             aux = aux -> prox;
         }
         fprintf(nf, "\n\t## TOTAL = R$%.2f ##\n", total);
+        if(strcmp(Carrinho->obs, "") != 0)
+            fprintf(nf, "\n\t## Observação: %s ##\n", Carrinho->obs);
         free(aux);
         fclose(nf);
+        idPedido++;
         return;
     }
 
@@ -198,6 +208,8 @@
     void exibirCarrinho (){
         produto* aux = Carrinho->inicio;
         float total=0;
+        int op=0;
+        do{
         printf("\t   ## CARRINHO ##\n\n");
         printf("\t%-3s - %-15s - %-5s -> %-5s\n","Qnt","Item","Vl Unit", "Vl Total");
         while (aux!=NULL){
@@ -206,25 +218,59 @@
             aux = aux -> prox;
         }
         printf("\n\tTOTAL = R$%.2f\n", total);
-        free(aux);
+        aux=Carrinho->inicio;
+        total=0;
 
         printf("\n\tPressione:\n");
         printf("\t0 para Adicionar itens\n");
         printf("\t1 para Remover itens\n");
-        printf("\t2 para Finalizar a Compra\n\t");
-        int op=0;
-        do{
+        if(strcmp(Carrinho->obs, "") == 0)
+            printf("\t2 para Adicionar observação\n");
+        else
+            printf("\t2 para Editar observação\n");
+        printf("\t3 para Finalizar a Compra\n\t");
             scanf("%d", &op);
-            if(op==2){
+            if(op==3){
                 printf("\tIMPRIMINDO PEDIDO, AGUARDE...\n\n");
                 sleep(1);
                 imprimirRecibo();
                 system("clear");
-                free(Carrinho);
-                printf("\tObrigadx, volte sempre!\n");
-                exit(0);
-                break;
-            } else if (op==1){
+                //free(Carrinho);
+                strcpy(Carrinho->obs, "");
+                Carrinho -> inicio = NULL;
+                printf("\tPedido registrado com sucesso!!\n\tGostaria de fazer um novo Pedido?(S/N)\n\t");
+                char continuar;
+                scanf(" %c",&continuar);
+                do{
+
+                if (continuar =='N'){
+                    free(Carrinho);
+                    printf("\tObrigadx, volte sempre!\n");
+                
+                    exit(0);
+                    break;
+                }
+                else if (continuar=='S'){
+
+                    return;
+                }
+                else{
+                    printf("\tOpção inválida!!!!!!!!\n\tTente novamente\n\t");
+                }
+                } while (1);
+                
+                
+            } else if(op==2){
+                system("clear");
+                printf("\tDigite sua observação:\n\t");
+                char obs[100];
+                scanf(" %100[^\n]", obs);
+                strcpy(Carrinho->obs, obs);
+                printf("\tObservação registrada!\n", Carrinho->obs);
+                sleep(1);
+                system("clear");
+            }            
+            else if (op==1){
                 system("clear");
                 removerItem();
                 system("clear");
